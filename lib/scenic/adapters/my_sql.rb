@@ -78,7 +78,7 @@ module Scenic
 
       # returns a list of views in the current database
       private def view_names
-        execute('SHOW FULL TABLES WHERE table_type = "VIEW"')
+        execute("SHOW FULL TABLES WHERE `table_type` = 'VIEW'")
           .map(&:first)
       end
 

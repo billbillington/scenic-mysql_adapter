@@ -84,8 +84,9 @@ module Scenic
 
       # returns the SELECT used to create the view
       private def view_definition(name)
-        execute("SHOW CREATE VIEW #{quote_table_name(name)}")
-          .first[1]
+        database_name = connection.current_database
+        execute("SELECT VIEW_DEFINITION FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = '#{name}' AND TABLE_SCHEMA = '#{database_name}'")
+          .first[0]
           .sub(/\A.*#{quote_table_name(name)} AS /i, '')
           .gsub(/#{quote_table_name(@connectable.connection.current_database)}\./, '')
       end
